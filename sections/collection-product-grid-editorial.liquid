@@ -1,0 +1,70 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-collection-grid ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-collection-grid__bar">
+      <div class="ed-collection-grid__count">
+        {{ collection.products_count }} {{ collection.products_count | pluralize: 'item', 'items' }}
+      </div>
+      <form class="ed-collection-grid__sort" method="get" action="{{ collection.url }}">
+        <label for="sort-by">Sort</label>
+        <select id="sort-by" name="sort_by" onchange="this.form.submit()">
+          {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+          <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Curated</option>
+          <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price, ascending</option>
+          <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price, descending</option>
+          <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Alphabetical</option>
+        </select>
+      </form>
+    </div>
+
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="ed-collection-grid__items">
+          {%- for product in collection.products -%}
+            {% render 'card-product-editorial', product: product %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="ed-pagination" aria-label="Pagination">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Previous</a>{%- endif -%}
+            <span>{{ paginate.current_page }} of {{ paginate.pages }}</span>
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Next &rarr;</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="ed-body ed-body--muted">No products yet.</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<style>
+  .ed-collection-grid__bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: var(--space-3) 0; margin-bottom: var(--space-7); font-size: 13px; color: var(--ink-muted); font-variant: small-caps; letter-spacing: var(--ls-kicker); }
+  .ed-collection-grid__sort { display: flex; align-items: center; gap: var(--space-3); }
+  .ed-collection-grid__sort select { width: auto; padding: 4px 8px; border-bottom-width: 0; font-variant: small-caps; letter-spacing: var(--ls-kicker); font-size: 13px; color: var(--ink); cursor: pointer; }
+  .ed-collection-grid__items { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-7) var(--space-6); }
+  .ed-pagination { border-top: 1px solid var(--rule); margin-top: var(--space-8); padding-top: var(--space-5); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--ink-muted); }
+  .ed-pagination a { color: var(--ink); border-bottom: 1px solid var(--ink); }
+  @media (max-width: 900px) {
+    .ed-collection-grid__items { grid-template-columns: repeat(2, 1fr); gap: var(--space-6) var(--space-4); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "tag": "section",
+  "class": "ed-collection-grid-section",
+  "settings": [
+    {"type": "range", "id": "products_per_page", "min": 8, "max": 48, "step": 4, "default": 24, "label": "Products per page"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "enabled_on": {"templates": ["collection"]}
+}
+{% endschema %}

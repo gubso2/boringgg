@@ -1,0 +1,126 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+{{ 'editorial-account.css' | asset_url | stylesheet_tag }}
+
+<main class="ed-account color-{{ section.settings.color_scheme }}">
+  <header class="ed-account__greeting">
+    <span class="kicker">Your account</span>
+    <h1>{{ 'customer.account.greeting_prefix' | default: 'Welcome' }}, {{ customer.first_name | default: customer.email }}.</h1>
+    {%- if customer.tags contains 'member' -%}
+      <p>Member since {{ customer.metafields.loyalty.member_since | default: customer.created_at | date: '%B %Y' }}. Member pricing is active.</p>
+    {%- else -%}
+      <p>You're signed in. Enable notifications to activate member pricing.</p>
+    {%- endif -%}
+  </header>
+
+  <div class="ed-account__grid">
+    <section class="ed-module ed-module--credit">
+      <h2>Store credit</h2>
+      {%- assign credit = customer.metafields.loyalty.store_credit_balance | default: 0 -%}
+      <p class="ed-module__value">{{ credit | money }}</p>
+      <p class="ed-module__sub">Applied automatically at checkout. Earned from referrals and occasional goodwill credits. Credit is shop-only and non-transferable.</p>
+      <p style="margin-top:var(--space-3);"><a class="editorial-link editorial-link--muted" href="/pages/referrals">Earn more credit &rarr;</a></p>
+    </section>
+
+    <section class="ed-module ed-module--referral">
+      <h2>Your referral link</h2>
+      {%- assign referral_code = customer.metafields.loyalty.referral_code -%}
+      {%- if referral_code != blank -%}
+        {%- assign referral_url = shop.url | append: '?ref=' | append: referral_code -%}
+        <div class="ed-referral-link">
+          <code id="ed-ref-url">{{ referral_url }}</code>
+          <button class="ed-copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('ed-ref-url').textContent); this.textContent='Copied'; setTimeout(()=>this.textContent='Copy',1500);">Copy</button>
+        </div>
+      {%- else -%}
+        <p class="ed-module__sub">Referral link will appear here once the referral app is connected.</p>
+      {%- endif -%}
+      <p class="ed-module__sub">Members earn 10% of the profit on every order their link drives, as store credit.</p>
+
+      <div class="ed-module__history">
+        <h3 style="font-variant:small-caps;letter-spacing:var(--ls-kicker);font-size:12px;color:var(--ink-muted);margin-top:var(--space-5);">Referral history</h3>
+        <table>
+          <thead><tr><th>Friend</th><th>Status</th><th>Credit</th></tr></thead>
+          <tbody>
+            <tr><td colspan="3" style="text-align:center;color:var(--ink-muted);">No referrals yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="ed-module ed-module--notifications">
+      <h2>Notifications</h2>
+      <div class="ed-toggle">
+        <div>
+          <strong style="font-weight:400;font-size:16px;">Browser push</strong>
+          <p class="ed-module__sub" style="margin:4px 0 0;">Two messages per month. New essentials, price changes, that's it.</p>
+        </div>
+        {%- if customer.tags contains 'member' -%}
+          <span class="kicker" style="margin:0;color:var(--science);">Active</span>
+        {%- else -%}
+          <button class="ed-button" type="button" id="ed-enable-push">Enable</button>
+        {%- endif -%}
+      </div>
+      <div class="ed-toggle">
+        <div>
+          <strong style="font-weight:400;font-size:16px;">Email</strong>
+          <p class="ed-module__sub" style="margin:4px 0 0;">Order confirmations and shipping only.</p>
+        </div>
+        <span class="kicker" style="margin:0;">Always on</span>
+      </div>
+    </section>
+
+    <section class="ed-module ed-module--orders">
+      <h2>Recent orders</h2>
+      {%- if customer.orders.size > 0 -%}
+        <ul>
+          {%- for order in customer.orders limit: 5 -%}
+            <li>
+              <a href="{{ order.customer_url }}">Order {{ order.name }} · {{ order.created_at | date: '%B %e, %Y' }}</a>
+              <span>{{ order.total_price | money }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="ed-module__sub">No orders yet.</p>
+      {%- endif -%}
+      <p style="margin-top:var(--space-4);"><a class="editorial-link editorial-link--muted" href="/account/addresses">Manage addresses &rarr;</a></p>
+    </section>
+  </div>
+
+  <div class="ed-signout">
+    <a class="editorial-link editorial-link--muted" href="{{ routes.account_logout_url }}">Sign out</a>
+  </div>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('ed-enable-push');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      // Trigger PushOwl prompt. PushOwl injects window.PushOwl once loaded.
+      if (window.PushOwl && typeof window.PushOwl.showPrompt === 'function') {
+        window.PushOwl.showPrompt();
+      } else if (window.pushowl && window.pushowl.subscribe) {
+        window.pushowl.subscribe();
+      } else {
+        // Fallback to native Notification API prompt
+        if (typeof Notification !== 'undefined' && Notification.requestPermission) {
+          Notification.requestPermission();
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Account dashboard",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ]
+}
+{% endschema %}

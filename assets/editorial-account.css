@@ -1,0 +1,116 @@
+/* Account dashboard */
+
+.ed-account {
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}
+
+.ed-account__greeting {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-7);
+}
+.ed-account__greeting h1 { font-size: var(--fs-display); margin: 0 0 var(--space-2); font-weight: 400; }
+.ed-account__greeting .kicker { margin-bottom: var(--space-2); }
+.ed-account__greeting p { margin: 0; color: var(--ink-muted); }
+
+.ed-account__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-7);
+}
+
+.ed-module {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-5);
+}
+.ed-module h2 {
+  font-variant: small-caps;
+  letter-spacing: var(--ls-kicker);
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.ed-module--credit .ed-module__value {
+  font-size: 56px;
+  line-height: 1;
+  color: var(--ink);
+  margin: 0 0 var(--space-3);
+}
+.ed-module--credit .ed-module__sub {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.ed-module--referral .ed-referral-link {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  border: 1px solid var(--rule);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-alt);
+  font-size: 15px;
+  margin: 0 0 var(--space-3);
+}
+.ed-module--referral .ed-referral-link code {
+  flex: 1;
+  font-family: var(--serif);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink);
+  background: transparent;
+}
+.ed-module--referral button.ed-copy {
+  background: transparent;
+  border: 1px solid var(--ink);
+  padding: 6px 12px;
+  font-family: var(--serif);
+  cursor: pointer;
+  font-size: 12px;
+  font-variant: small-caps;
+  letter-spacing: var(--ls-kicker);
+  color: var(--ink);
+  transition: background-color 150ms, color 150ms;
+}
+.ed-module--referral button.ed-copy:hover { background: var(--ink); color: var(--bg); }
+
+.ed-module--referral table { margin-top: var(--space-4); }
+.ed-module--referral table th,
+.ed-module--referral table td { font-size: 14px; padding: 10px 12px; }
+
+.ed-module--notifications .ed-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--rule);
+}
+.ed-module--notifications .ed-toggle:first-of-type { border-top: 0; }
+
+.ed-module--orders ul { list-style: none; padding: 0; margin: 0; }
+.ed-module--orders li {
+  border-top: 1px solid var(--rule);
+  padding: var(--space-3) 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-3);
+  font-size: 14px;
+}
+.ed-module--orders li:first-child { border-top: 0; }
+.ed-module--orders li a { border-bottom: 0; color: var(--ink); }
+
+.ed-signout {
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-5);
+}
+
+@media (max-width: 780px) {
+  .ed-account__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+  .ed-account { padding: var(--space-6) var(--space-4); }
+  .ed-account__greeting h1 { font-size: 40px; }
+}

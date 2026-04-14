@@ -1,0 +1,64 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+{%- assign collection = collections[section.settings.collection] -%}
+
+<section class="ed-fc ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-fc__grid">
+      <aside class="ed-fc__intro">
+        <span class="kicker">{{ section.settings.kicker }}</span>
+        <h2 class="ed-heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.description != blank -%}
+          <p class="ed-body ed-body--muted">{{ section.settings.description }}</p>
+        {%- endif -%}
+        {%- if collection != blank -%}
+          <a class="editorial-link" href="{{ collection.url }}">View all &rarr;</a>
+        {%- endif -%}
+      </aside>
+      <div class="ed-fc__products">
+        {%- if collection != blank -%}
+          {%- assign limit = section.settings.product_count | default: 4 -%}
+          {%- for product in collection.products limit: limit -%}
+            {% render 'card-product-editorial', product: product %}
+          {%- endfor -%}
+        {%- else -%}
+          <p class="ed-body ed-body--muted">Select a collection in the theme editor.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-fc__grid { display: grid; grid-template-columns: 280px 1fr; gap: var(--space-8); align-items: start; }
+  .ed-fc__intro { position: sticky; top: 96px; }
+  .ed-fc__products { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (max-width: 1100px) {
+    .ed-fc__products { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 780px) {
+    .ed-fc__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+    .ed-fc__intro { position: static; }
+    .ed-fc__products { grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "class": "ed-fc-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "Essentials for"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Health."},
+    {"type": "textarea", "id": "description", "label": "Description", "default": "A small set of items selected for their evidence, usefulness, and longevity."},
+    {"type": "collection", "id": "collection", "label": "Collection"},
+    {"type": "range", "id": "product_count", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Products to show"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "presets": [{"name": "Featured collection"}]
+}
+{% endschema %}

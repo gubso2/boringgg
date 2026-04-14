@@ -1,0 +1,62 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-hero ed-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | escape }}">
+  <div class="ed-hero__inner ed-section__inner">
+    {%- if section.settings.image != blank -%}
+      <div class="ed-hero__media">
+        {{ section.settings.image | image_url: width: 1600 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '(min-width: 900px) 60vw, 100vw',
+          widths: '400,600,800,1000,1200,1600',
+          alt: section.settings.image.alt | default: section.settings.heading
+        }}
+      </div>
+    {%- endif -%}
+    <div class="ed-hero__content">
+      {%- if section.settings.kicker != blank -%}
+        <span class="kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h1 class="ed-heading ed-heading--display">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="ed-lede">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+        <a class="editorial-link" href="{{ section.settings.link_url }}">{{ section.settings.link_text }} &rarr;</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-hero { padding-top: var(--space-9); padding-bottom: var(--space-9); }
+  .ed-hero__inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-8); align-items: center; }
+  .ed-hero__media img { width: 100%; height: auto; display: block; }
+  .ed-hero__content { max-width: 560px; }
+  @media (max-width: 900px) {
+    .ed-hero__inner { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Editorial hero",
+  "tag": "section",
+  "class": "ed-hero-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "Boring."},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Essentials, evidence-first."},
+    {"type": "textarea", "id": "subheading", "label": "Subheading", "default": "A small catalogue of things that actually work. Each item is selected for its evidence, its usefulness, and its value over time."},
+    {"type": "text", "id": "link_text", "label": "Link text", "default": "Browse essentials"},
+    {"type": "url", "id": "link_url", "label": "Link URL"},
+    {"type": "image_picker", "id": "image", "label": "Image"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "presets": [{"name": "Editorial hero"}]
+}
+{% endschema %}

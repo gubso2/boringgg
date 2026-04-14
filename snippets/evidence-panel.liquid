@@ -1,0 +1,44 @@
+{% comment %}
+  Scientific evidence panel.
+  Usage: {% render 'evidence-panel', evidence: product.metafields.custom.evidence.value %}
+{% endcomment %}
+
+{{ 'editorial-evidence.css' | asset_url | stylesheet_tag }}
+
+{%- if evidence == blank -%}{%- else -%}
+  <section class="evidence-panel" aria-labelledby="evidence-h">
+    <h2 id="evidence-h" class="kicker" style="font-size:var(--fs-kicker);">The evidence.</h2>
+    {%- if evidence.strength != blank -%}
+      <p class="evidence-panel__strength">Evidence strength · <span class="evidence-panel__strength-value">{{ evidence.strength }}</span></p>
+    {%- endif -%}
+    {%- if evidence.plain_english_takeaway != blank -%}
+      <p class="evidence-panel__takeaway">{{ evidence.plain_english_takeaway }}</p>
+    {%- endif -%}
+    {%- if evidence.mechanism_summary != blank -%}
+      <p class="evidence-panel__mechanism">{{ evidence.mechanism_summary }}</p>
+    {%- endif -%}
+
+    {%- if evidence.sources != blank and evidence.sources.size > 0 -%}
+      <details>
+        <summary>Studies and sources · {{ evidence.sources.size }}</summary>
+        <ol class="evidence-sources">
+          {%- for source in evidence.sources.value -%}
+            <li>
+              {%- if source.url != blank -%}
+                <a href="{{ source.url }}" rel="noopener" target="_blank">{{ source.title }}</a>
+              {%- else -%}
+                {{ source.title }}
+              {%- endif -%}
+              {%- if source.authors != blank %} &mdash; {{ source.authors }}{%- endif -%}
+              {%- if source.publication != blank %}, <em>{{ source.publication }}</em>{%- endif -%}
+              {%- if source.year != blank %} ({{ source.year }}){%- endif -%}
+              {%- if source.type != blank %} · {{ source.type }}{%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ol>
+      </details>
+    {%- endif -%}
+
+    <p class="evidence-panel__disclaimer">Boring does not provide medical advice. Always consult a clinician for health decisions.</p>
+  </section>
+{%- endif -%}

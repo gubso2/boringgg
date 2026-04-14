@@ -1,0 +1,57 @@
+{% comment %}
+  Member state block. Shows one of three states.
+  Usage: {% render 'member-state-block', product: product, variant: 'full' %}
+  variant: 'full' | 'compact' | 'row'
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign is_signed_in = false -%}
+{%- assign is_member = false -%}
+{%- if customer -%}
+  {%- assign is_signed_in = true -%}
+  {%- if customer.tags contains 'member' -%}
+    {%- assign is_member = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign price_source = 0 -%}
+{%- if product -%}
+  {%- assign price_source = product.price -%}
+{%- endif -%}
+{%- assign member_price = price_source | times: 0.9 | round -%}
+
+{%- if variant == 'row' -%}
+  <div class="product-price-row">
+    {%- if product -%}
+      <span class="price-public">{{ price_source | money }}</span>
+      {%- if is_member -%}
+        <span class="price-member price-member--unlocked">Member · {{ member_price | money }}</span>
+      {%- else -%}
+        <span class="price-member" title="Create an account and enable notifications to unlock." aria-label="Sign in to unlock member pricing">Member · {{ member_price | money }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{%- elsif is_member -%}
+  <div class="member-state member-state--unlocked{% if variant == 'compact' %} member-state--compact{% endif %}">
+    <p class="member-state__heading">You're a member.</p>
+    <p class="member-state__body">Member pricing is applied automatically at checkout.</p>
+  </div>
+{%- elsif is_signed_in -%}
+  <div class="member-state{% if variant == 'compact' %} member-state--compact{% endif %}">
+    <p class="member-state__heading">Enable notifications to activate member pricing.</p>
+    <p class="member-state__body">Two messages a month. New essentials and price changes only.</p>
+    <div class="member-state__actions">
+      <a class="editorial-link" href="{{ routes.account_url }}">Manage notifications &rarr;</a>
+    </div>
+  </div>
+{%- else -%}
+  <div class="member-state{% if variant == 'compact' %} member-state--compact{% endif %}">
+    <p class="member-state__heading">Members pay {{ member_price | money }}.</p>
+    <p class="member-state__body">Create an account and enable notifications to unlock member pricing.</p>
+    <div class="member-state__actions">
+      <a class="editorial-link" href="{{ routes.account_register_url }}">Create account</a>
+      <a class="editorial-link editorial-link--muted" href="{{ routes.account_login_url }}">Sign in</a>
+    </div>
+  </div>
+{%- endif -%}

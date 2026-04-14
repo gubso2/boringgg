@@ -1,0 +1,15 @@
+{
+  "name": "member-discount",
+  "version": "1.0.0",
+  "description": "Boring — 10% discount for members (customers tagged 'member')",
+  "main": "src/cart_lines_discounts_generate_run.js",
+  "type": "module",
+  "scripts": {
+    "shopify": "npm exec -- shopify",
+    "build": "shopify app function build",
+    "typegen": "shopify app function typegen"
+  },
+  "devDependencies": {
+    "@shopify/cli": "latest"
+  }
+}

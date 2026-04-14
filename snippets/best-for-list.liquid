@@ -1,0 +1,22 @@
+{% comment %}
+  Best-for list.
+  Usage: {% render 'best-for-list', list: product.metafields.custom.best_for.value %}
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- if list == blank or list.size == 0 -%}{%- else -%}
+  <section class="product-best-for">
+    <h3>Best for.</h3>
+    <ul class="best-for-list">
+      {%- for entry in list -%}
+        {%- comment -%}entry may be a metaobject (best_for_segment) or a plain string{%- endcomment -%}
+        {%- if entry.label -%}
+          <li><strong>{{ entry.label }}</strong>{% if entry.description %} &mdash; {{ entry.description }}{% endif %}</li>
+        {%- else -%}
+          <li>{{ entry }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}

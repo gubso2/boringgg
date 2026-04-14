@@ -1,0 +1,49 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-statement ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-statement__grid">
+      <div class="ed-statement__heading">
+        {%- if section.settings.kicker != blank -%}
+          <span class="kicker">{{ section.settings.kicker }}</span>
+        {%- endif -%}
+        <h2 class="ed-heading">{{ section.settings.heading }}</h2>
+      </div>
+      <div class="ed-statement__body">
+        <div class="ed-body rte">{{ section.settings.body }}</div>
+        {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+          <p><a class="editorial-link" href="{{ section.settings.link_url }}">{{ section.settings.link_text }} &rarr;</a></p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-statement__grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-8); align-items: start; }
+  .ed-statement__heading { max-width: 420px; }
+  .ed-statement__body { max-width: 640px; }
+  @media (max-width: 780px) {
+    .ed-statement__grid { grid-template-columns: 1fr; gap: var(--space-5); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Editorial statement",
+  "tag": "section",
+  "class": "ed-statement-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "We only sell what actually works."},
+    {"type": "richtext", "id": "body", "label": "Body", "default": "<p>No trends. No sponsorships. No placement fees. Every item we list is chosen because the evidence for it is genuinely strong — or because the financial case is unusually clear. If we can't defend a product in writing, we don't sell it.</p>"},
+    {"type": "text", "id": "link_text", "label": "Link text"},
+    {"type": "url", "id": "link_url", "label": "Link URL"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "presets": [{"name": "Editorial statement"}]
+}
+{% endschema %}

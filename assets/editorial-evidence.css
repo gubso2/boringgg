@@ -1,0 +1,151 @@
+/* Evidence / financial-impact panels */
+
+.evidence-panel,
+.financial-panel {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  padding: var(--space-6);
+}
+
+.evidence-panel__strength,
+.financial-panel__type {
+  font-variant: small-caps;
+  letter-spacing: var(--ls-kicker);
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: var(--space-3);
+  display: inline-block;
+}
+.evidence-panel__strength-value,
+.financial-panel__type-value {
+  color: var(--science);
+  border-bottom: 1px solid var(--science);
+  padding-bottom: 2px;
+}
+
+.evidence-panel__takeaway,
+.financial-panel__summary {
+  font-size: 18px;
+  line-height: 1.55;
+  margin: 0 0 var(--space-4);
+  color: var(--ink);
+}
+
+.evidence-panel__mechanism,
+.financial-panel__method {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.financial-panel__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-4);
+}
+.financial-panel__stat dt {
+  font-variant: small-caps;
+  letter-spacing: var(--ls-kicker);
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-bottom: var(--space-1);
+}
+.financial-panel__stat dd {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.evidence-panel details,
+.financial-panel details {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-3);
+  margin-top: var(--space-4);
+}
+.evidence-panel details[open] summary { margin-bottom: var(--space-3); }
+.evidence-panel summary,
+.financial-panel summary {
+  font-variant: small-caps;
+  letter-spacing: var(--ls-kicker);
+  font-size: 12px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+  color: var(--ink-muted);
+}
+.evidence-panel summary::-webkit-details-marker,
+.financial-panel summary::-webkit-details-marker { display: none; }
+.evidence-panel summary::after,
+.financial-panel summary::after {
+  content: "+";
+  font-size: 16px;
+  transition: transform 200ms ease;
+}
+.evidence-panel details[open] summary::after,
+.financial-panel details[open] summary::after { content: "×"; }
+
+.evidence-sources {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: src;
+}
+.evidence-sources li {
+  counter-increment: src;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: var(--space-3);
+  padding-left: 28px;
+  position: relative;
+  color: var(--ink-muted);
+}
+.evidence-sources li::before {
+  content: "(" counter(src) ")";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-variant: normal;
+}
+.evidence-sources a {
+  color: var(--ink-muted);
+  border-bottom-color: var(--rule);
+}
+
+.financial-panel__assumptions {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-3);
+}
+.financial-panel__assumptions li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: var(--space-2);
+}
+.financial-panel__assumptions li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.evidence-panel__disclaimer,
+.financial-panel__disclaimer {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--rule);
+  font-style: italic;
+  line-height: 1.5;
+}

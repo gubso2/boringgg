@@ -1,0 +1,25 @@
+query Input {
+  cart {
+    buyerIdentity {
+      customer {
+        id
+        hasTags(tags: ["member"]) {
+          tag
+          hasTag
+        }
+      }
+    }
+    lines {
+      id
+      cost {
+        subtotalAmount {
+          amount
+        }
+      }
+    }
+  }
+  discount {
+    discountClasses
+  }
+  presentmentCurrencyRate
+}

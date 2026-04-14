@@ -1,0 +1,45 @@
+{% comment %}
+  Minimal product form. Variant radios, single add-to-cart text button.
+  Usage: {% render 'product-form-minimal', product: product, section_id: section.id %}
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign current = product.selected_or_first_available_variant -%}
+
+<product-form class="product-form-minimal" data-section-id="{{ section_id }}">
+  {%- form 'product', product, id: 'product-form-' | append: section_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+    <input type="hidden" name="id" value="{{ current.id }}">
+
+    {%- unless product.has_only_default_variant -%}
+      <div class="product-form-minimal__variants">
+        {%- for option in product.options_with_values -%}
+          <div class="product-form-minimal__variant-group">
+            <fieldset>
+              <legend>{{ option.name }}</legend>
+              <ul class="product-form-minimal__variants-list">
+                {%- for value in option.values -%}
+                  {%- assign input_id = 'option-' | append: section_id | append: '-' | append: forloop.index0 | append: '-' | append: value | handleize -%}
+                  <li>
+                    <input type="radio" name="option-{{ option.position }}" id="{{ input_id }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                    <label class="product-form-minimal__variant-label" for="{{ input_id }}">{{ value }}</label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </fieldset>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+
+    <button
+      type="submit"
+      name="add"
+      class="product-add-to-cart"
+      {% if current.available == false %}disabled{% endif %}
+    >
+      <span>{% if current.available %}Add to cart{% else %}Sold out{% endif %}</span>
+      <span>&mdash; {{ current.price | money }}</span>
+    </button>
+  {%- endform -%}
+</product-form>

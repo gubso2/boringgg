@@ -1,0 +1,92 @@
+{% comment %}
+  Comparison table.
+  Usage: {% render 'comparison-table', comparison: product.metafields.custom.comparison.value %}
+  Optional: compact: true
+{% endcomment %}
+
+{{ 'editorial-comparison.css' | asset_url | stylesheet_tag }}
+
+{%- if comparison == blank -%}{%- else -%}
+  {%- assign benchmark = comparison.benchmark_brand | default: 'Benchmark' -%}
+  <section class="comparison{% if compact %} comparison--compact{% endif %}" aria-labelledby="comparison-heading-{{ comparison.system.id | default: 'x' }}">
+    {%- unless compact -%}
+      <h2 id="comparison-heading-{{ comparison.system.id | default: 'x' }}">How it compares.</h2>
+      <p class="comparison__intro">Versus {{ benchmark }}{% if comparison.benchmark_product_name %} {{ comparison.benchmark_product_name }}{% endif %}.</p>
+    {%- endunless -%}
+    <table class="comparison__table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Boring</th>
+          <th scope="col">{{ benchmark }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- if comparison.our_price or comparison.benchmark_price -%}
+          <tr>
+            <th scope="row">Price</th>
+            <td data-benchmark="{{ benchmark | escape }}">{%- if comparison.our_price -%}{{ comparison.our_price | money }}{%- else -%}&mdash;{%- endif -%}</td>
+            <td data-benchmark="{{ benchmark | escape }}">{%- if comparison.benchmark_price -%}{{ comparison.benchmark_price | money }}{%- else -%}&mdash;{%- endif -%}</td>
+          </tr>
+        {%- endif -%}
+        {%- if comparison.material_ours or comparison.material_benchmark -%}
+          <tr>
+            <th scope="row">Materials</th>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.material_ours | default: '—' }}</td>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.material_benchmark | default: '—' }}</td>
+          </tr>
+        {%- endif -%}
+        {%- if comparison.performance_ours or comparison.performance_benchmark -%}
+          <tr>
+            <th scope="row">Performance</th>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.performance_ours | newline_to_br | default: '—' }}</td>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.performance_benchmark | newline_to_br | default: '—' }}</td>
+          </tr>
+        {%- endif -%}
+        {%- if comparison.running_cost_ours or comparison.running_cost_benchmark -%}
+          <tr>
+            <th scope="row">Running cost</th>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.running_cost_ours | default: '—' }}</td>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.running_cost_benchmark | default: '—' }}</td>
+          </tr>
+        {%- endif -%}
+        {%- if comparison.warranty_ours or comparison.warranty_benchmark -%}
+          <tr>
+            <th scope="row">Warranty</th>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.warranty_ours | default: '—' }}</td>
+            <td data-benchmark="{{ benchmark | escape }}">{{ comparison.warranty_benchmark | default: '—' }}</td>
+          </tr>
+        {%- endif -%}
+        {%- if comparison.our_specs != blank or comparison.benchmark_specs != blank -%}
+          {%- assign ours_specs = comparison.our_specs -%}
+          {%- assign bench_specs = comparison.benchmark_specs -%}
+          {%- assign max = ours_specs.size -%}
+          {%- if bench_specs.size > max -%}{%- assign max = bench_specs.size -%}{%- endif -%}
+          {%- for i in (0..max) -%}
+            {%- if forloop.index > max -%}{%- break -%}{%- endif -%}
+            {%- assign o = ours_specs[i] | split: '|' -%}
+            {%- assign b = bench_specs[i] | split: '|' -%}
+            {%- assign label = o[0] | default: b[0] -%}
+            {%- if label == blank -%}{%- continue -%}{%- endif -%}
+            <tr>
+              <th scope="row">{{ label | strip }}</th>
+              <td data-benchmark="{{ benchmark | escape }}">{{ o[1] | strip | default: '—' }}</td>
+              <td data-benchmark="{{ benchmark | escape }}">{{ b[1] | strip | default: '—' }}</td>
+            </tr>
+          {%- endfor -%}
+        {%- endif -%}
+      </tbody>
+    </table>
+    {%- unless compact -%}
+      {%- if comparison.key_advantage != blank -%}
+        <p class="comparison__advantage"><strong>Advantage</strong>{{ comparison.key_advantage }}</p>
+      {%- endif -%}
+      {%- if comparison.key_disadvantage != blank -%}
+        <p class="comparison__disadvantage"><strong>Trade-off</strong>{{ comparison.key_disadvantage }}</p>
+      {%- endif -%}
+      {%- if comparison.summary != blank -%}
+        <p class="comparison__summary">{{ comparison.summary }}</p>
+      {%- endif -%}
+    {%- endunless -%}
+  </section>
+{%- endif -%}

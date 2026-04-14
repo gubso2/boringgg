@@ -1,0 +1,34 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign current = product -%}
+{%- assign cross_collection = current.collections.first -%}
+
+{%- if cross_collection != blank -%}
+  {%- assign related = cross_collection.products -%}
+  {%- assign count = 0 -%}
+  <section class="related-essentials ed-section color-scheme-1">
+    <div class="ed-section__inner">
+      <span class="kicker">Related essentials</span>
+      <h2 class="ed-heading">Other items in {{ cross_collection.title }}.</h2>
+      <div class="related-essentials__grid">
+        {%- for p in related limit: 6 -%}
+          {%- if p.id == current.id -%}{%- continue -%}{%- endif -%}
+          {%- if count >= 3 -%}{%- break -%}{%- endif -%}
+          {% render 'card-product-editorial', product: p %}
+          {%- assign count = count | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Related essentials",
+  "tag": "section",
+  "class": "related-essentials-section",
+  "settings": [],
+  "presets": [{"name": "Related essentials"}]
+}
+{% endschema %}

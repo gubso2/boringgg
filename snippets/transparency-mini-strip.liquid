@@ -1,0 +1,16 @@
+{% comment %}
+  Small transparency block used on product pages.
+  Usage: {% render 'transparency-mini-strip' %}
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign markup = shop.metafields.brand.markup_percent | default: 50 -%}
+{%- assign warranty = shop.metafields.brand.warranty_years | default: 2 -%}
+
+<div class="transparency-mini">
+  <p class="transparency-mini__line">Price reflects a fixed {{ markup }}% markup over landed cost.</p>
+  <p class="transparency-mini__line">Covered by a {{ warranty }}-year warranty on the physical product.</p>
+  <p class="transparency-mini__line">No sales, no price games, no dynamic pricing.</p>
+  <p class="transparency-mini__link"><a class="editorial-link editorial-link--muted" href="/pages/how-it-works">How our pricing works &rarr;</a></p>
+</div>

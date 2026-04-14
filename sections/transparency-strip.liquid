@@ -1,0 +1,41 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-strip ed-section--alt ed-section color-scheme-2">
+  <div class="ed-section__inner">
+    <div class="ed-strip__grid">
+      <div class="ed-strip__text">
+        {%- if section.settings.kicker != blank -%}
+          <span class="kicker">{{ section.settings.kicker }}</span>
+        {%- endif -%}
+        <p class="ed-heading" style="margin:0;">{{ section.settings.heading }}</p>
+      </div>
+      {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+        <a class="editorial-link" href="{{ section.settings.link_url }}">{{ section.settings.link_text }} &rarr;</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-strip { padding-top: var(--space-7); padding-bottom: var(--space-7); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .ed-strip__grid { display: grid; grid-template-columns: 1fr auto; gap: var(--space-6); align-items: center; }
+  .ed-strip__text .ed-heading { font-size: var(--fs-h2); }
+  @media (max-width: 780px) {
+    .ed-strip__grid { grid-template-columns: 1fr; gap: var(--space-4); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Transparency strip",
+  "tag": "section",
+  "class": "ed-strip-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "Transparent pricing"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "A fixed 50% markup on every item. Two years of warranty. No price games."},
+    {"type": "text", "id": "link_text", "label": "Link text", "default": "How our pricing works"},
+    {"type": "url", "id": "link_url", "label": "Link URL"}
+  ],
+  "presets": [{"name": "Transparency strip"}]
+}
+{% endschema %}

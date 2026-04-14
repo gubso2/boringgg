@@ -1,0 +1,47 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-referral ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-referral__grid">
+      <div class="ed-referral__intro">
+        <span class="kicker">{{ section.settings.kicker | default: 'Referrals' }}</span>
+        <h2 class="ed-heading">{{ section.settings.heading }}</h2>
+      </div>
+      <div class="ed-referral__body">
+        <p class="ed-lede">{{ section.settings.body }}</p>
+        {%- if section.settings.link_url != blank -%}
+          <p><a class="editorial-link" href="{{ section.settings.link_url }}">{{ section.settings.link_text | default: 'How referrals work' }} &rarr;</a></p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-referral__grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-8); align-items: start; }
+  .ed-referral__intro { max-width: 420px; }
+  .ed-referral__body { max-width: 640px; }
+  @media (max-width: 780px) {
+    .ed-referral__grid { grid-template-columns: 1fr; gap: var(--space-5); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Referral lockup",
+  "tag": "section",
+  "class": "ed-referral-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "Referrals"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Invite others. Earn future credit."},
+    {"type": "textarea", "id": "body", "label": "Body", "default": "Members earn 10% of the profit on any order they refer, as store credit. Elegant. Slow. Compounds. If you value what we do here, this is how we grow."},
+    {"type": "text", "id": "link_text", "label": "Link text", "default": "How referrals work"},
+    {"type": "url", "id": "link_url", "label": "Link URL"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-2"}
+  ],
+  "presets": [{"name": "Referral lockup"}]
+}
+{% endschema %}

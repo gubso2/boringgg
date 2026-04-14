@@ -1,0 +1,44 @@
+{% comment %}
+  Editorial product card.
+  Usage: {% render 'card-product-editorial', product: product %}
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- if product == blank or product == empty -%}
+{%- else -%}
+  {%- assign member_price = product.metafields.custom.member_price -%}
+  {%- assign chips = product.metafields.custom.evidence.value -%}
+  {%- assign subtitle = product.metafields.custom.functional_subtitle -%}
+
+  <a class="ed-card" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+    <div class="ed-card__media">
+      {%- if product.featured_media != blank -%}
+        {{ product.featured_media | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          sizes: '(min-width: 900px) 22vw, 50vw',
+          widths: '300,400,600,800',
+          alt: product.featured_media.alt | default: product.title
+        }}
+      {%- endif -%}
+    </div>
+    <h3 class="ed-card__title">{{ product.title }}</h3>
+    {%- if subtitle != blank -%}
+      <p class="ed-card__subtitle">{{ subtitle }}</p>
+    {%- endif -%}
+    <div class="ed-card__price">
+      <span>{{ product.price | money }}</span>
+      {%- if customer and customer.tags contains 'member' -%}
+        {%- assign discounted = product.price | times: 0.9 | round -%}
+        <span class="ed-card__member-price">Member · {{ discounted | money }}</span>
+      {%- endif -%}
+    </div>
+    {%- if chips != blank -%}
+      <div class="ed-card__chips">
+        {%- if chips.strength != blank -%}
+          <span class="ed-card__chip ed-card__chip--science">{{ chips.strength }} evidence</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </a>
+{%- endif -%}

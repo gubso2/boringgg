@@ -1,14 +1,11 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "editorial-essay",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "color_scheme": "scheme-1"
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

@@ -1,0 +1,78 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-diptych ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-diptych__grid">
+      {%- for block in section.blocks -%}
+        <article class="ed-diptych__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="ed-diptych__media">
+              {{ block.settings.image | image_url: width: 1200 | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 900px) 45vw, 100vw',
+                widths: '400,600,800,1000,1200',
+                alt: block.settings.image.alt | default: block.settings.title
+              }}
+            </div>
+          {%- endif -%}
+          <span class="kicker">{{ block.settings.kicker }}</span>
+          <h2 class="ed-diptych__title">{{ block.settings.title }}</h2>
+          <p class="ed-body ed-body--muted">{{ block.settings.description }}</p>
+          <hr class="rule" />
+          {%- if block.settings.link_url != blank -%}
+            <a class="editorial-link" href="{{ block.settings.link_url }}">{{ block.settings.link_text | default: 'View collection' }} &rarr;</a>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-diptych__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); }
+  .ed-diptych__media { margin-bottom: var(--space-5); }
+  .ed-diptych__media img { width: 100%; height: auto; display: block; }
+  .ed-diptych__title { font-size: var(--fs-h1); margin: 0 0 var(--space-3); }
+  .ed-diptych__card .rule { margin: var(--space-5) 0; }
+  @media (max-width: 780px) {
+    .ed-diptych__grid { grid-template-columns: 1fr; gap: var(--space-7); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Category diptych",
+  "tag": "section",
+  "class": "ed-diptych-section",
+  "max_blocks": 2,
+  "settings": [
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {"type": "text", "id": "kicker", "label": "Kicker", "default": "Essentials for"},
+        {"type": "text", "id": "title", "label": "Title", "default": "Health"},
+        {"type": "textarea", "id": "description", "label": "Description", "default": "Sleep, oral care, sun protection, air and water quality. Every item is backed by research you can read."},
+        {"type": "url", "id": "link_url", "label": "Collection URL"},
+        {"type": "text", "id": "link_text", "label": "Link text", "default": "View collection"},
+        {"type": "image_picker", "id": "image", "label": "Image"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category diptych",
+      "blocks": [
+        {"type": "category", "settings": {"title": "Health", "description": "Sleep, oral care, sun protection, air and water quality."}},
+        {"type": "category", "settings": {"title": "Finance", "description": "Fraud protection, energy savings, long-term investing."}}
+      ]
+    }
+  ]
+}
+{% endschema %}

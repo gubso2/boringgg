@@ -1,210 +1,157 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "kicker": "Boring.",
+        "heading": "Essentials, evidence-first.",
+        "subheading": "A small catalogue of things that actually work. Each item selected for its evidence, its usefulness, and its value over time.",
+        "link_text": "Browse essentials",
+        "link_url": "/collections/all",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "diptych": {
+      "type": "category-diptych",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "health": {
+          "type": "category",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
+            "kicker": "Essentials for",
+            "title": "Health.",
+            "description": "Sleep, oral care, sun protection, air and water quality. Every item is backed by research you can read.",
+            "link_url": "/collections/health",
+            "link_text": "View collection"
           }
         },
-        "text": {
-          "type": "text",
+        "finance": {
+          "type": "category",
           "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "kicker": "Essentials for",
+            "title": "Finance.",
+            "description": "Fraud protection, energy savings, long-term investing. Every item pays for itself, or it isn't on the list.",
+            "link_url": "/collections/finance",
+            "link_text": "View collection"
           }
         }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "block_order": ["health", "finance"],
+      "settings": {"color_scheme": "scheme-1"}
+    },
+    "health_featured": {
+      "type": "featured-collection-editorial",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "kicker": "Essentials for",
+        "heading": "Health.",
+        "description": "Small, durable items that measurably improve sleep, oral care, breathing and skin.",
+        "product_count": 4,
+        "color_scheme": "scheme-1"
       }
     },
-    "rich_text": {
-      "type": "rich-text",
+    "finance_featured": {
+      "type": "featured-collection-editorial",
+      "settings": {
+        "kicker": "Essentials for",
+        "heading": "Finance.",
+        "description": "Tools that pay for themselves through avoided cost, improved returns, or lower utility bills.",
+        "product_count": 4,
+        "color_scheme": "scheme-2"
+      }
+    },
+    "why_statement": {
+      "type": "editorial-statement",
+      "settings": {
+        "kicker": "Why these products",
+        "heading": "We only sell what actually works.",
+        "body": "<p>No trends. No sponsorships. No placement fees. Every item we list is chosen because the evidence for it is genuinely strong &mdash; or because the financial case is unusually clear. If we can't defend a product in writing, we don't sell it.</p>",
+        "link_text": "How we assess products",
+        "link_url": "/pages/evidence",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "pillars": {
+      "type": "three-pillars",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "one": {
+          "type": "pillar",
           "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
+            "title": "Scientific backing.",
+            "body": "Health items must have peer-reviewed evidence of a meaningful effect. Weak or mixed evidence is rejected or labelled clearly."
           }
         },
-        "text": {
-          "type": "text",
+        "two": {
+          "type": "pillar",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+            "title": "Real-world usefulness.",
+            "body": "An item must solve a problem someone actually has. Novelty alone is not enough. Daily value over years is the test."
+          }
+        },
+        "three": {
+          "type": "pillar",
+          "settings": {
+            "title": "Financial efficiency.",
+            "body": "Every item must offer clear value against its best alternative — whether that is a major brand, a recurring cost, or doing nothing."
           }
         }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
+      "block_order": ["one", "two", "three"],
       "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "kicker": "How we assess products",
+        "heading": "Three questions we ask about every item.",
+        "color_scheme": "scheme-2"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "membership": {
+      "type": "member-lockup",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
+        "kicker": "Membership",
+        "heading": "Members pay ten percent less.",
+        "body": "Free to join. Requires an account and notification permission. No tiers, no games, no gating of categories.",
+        "link_text": "How membership works",
+        "link_url": "/pages/membership",
+        "color_scheme": "scheme-1"
       }
     },
-    "collage": {
-      "type": "collage",
-      "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
+    "transparency_strip": {
+      "type": "transparency-strip",
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "kicker": "Transparent pricing",
+        "heading": "A fixed 50% markup on every item. Two years of warranty. No price games.",
+        "link_text": "How our pricing works",
+        "link_url": "/pages/how-it-works"
       }
     },
-    "video": {
-      "type": "video",
+    "featured_comparison": {
+      "type": "featured-comparison",
       "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "kicker": "In comparison",
+        "heading": "Every item, measured against the brand you'd otherwise buy.",
+        "body": "We do not hide from comparison. Every product on Boring carries a side-by-side against the major-brand equivalent — price, materials, performance, warranty. No spin.",
+        "color_scheme": "scheme-1"
       }
     },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
+    "referrals": {
+      "type": "referral-lockup",
       "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "kicker": "Referrals",
+        "heading": "Invite others. Earn future credit.",
+        "body": "Members earn 10% of the profit on any order they refer, as store credit. Elegant. Slow. Compounds. If you value what we do here, this is how we grow.",
+        "link_text": "How referrals work",
+        "link_url": "/pages/referrals",
+        "color_scheme": "scheme-2"
       }
     }
   },
   "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
+    "hero",
+    "diptych",
+    "health_featured",
+    "finance_featured",
+    "why_statement",
+    "pillars",
+    "membership",
+    "transparency_strip",
+    "featured_comparison",
+    "referrals"
   ]
 }

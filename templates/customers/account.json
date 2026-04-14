@@ -1,10 +1,11 @@
 {
   "sections": {
     "main": {
-      "type": "main-account"
+      "type": "main-account-editorial",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

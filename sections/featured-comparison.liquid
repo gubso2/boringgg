@@ -1,0 +1,59 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+{{ 'editorial-comparison.css' | asset_url | stylesheet_tag }}
+
+{%- assign product = all_products[section.settings.product] -%}
+{%- assign comparison = product.metafields.custom.comparison.value -%}
+
+<section class="ed-featured-comp ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-featured-comp__grid">
+      <div class="ed-featured-comp__intro">
+        <span class="kicker">{{ section.settings.kicker | default: 'In comparison' }}</span>
+        <h2 class="ed-heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.body != blank -%}
+          <p class="ed-body ed-body--muted">{{ section.settings.body }}</p>
+        {%- endif -%}
+        {%- if product != blank -%}
+          <p><a class="editorial-link" href="{{ product.url }}">See full comparison &rarr;</a></p>
+        {%- endif -%}
+      </div>
+      <div class="ed-featured-comp__body">
+        {%- if comparison -%}
+          {% render 'comparison-table', comparison: comparison, compact: true %}
+        {%- elsif product == blank -%}
+          <p class="ed-body ed-body--muted">Select a product in the theme editor. The product must have a Comparison metaobject attached.</p>
+        {%- else -%}
+          <p class="ed-body ed-body--muted">This product has no Comparison metaobject. Add one in admin to populate this section.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-featured-comp__grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--space-8); align-items: start; }
+  .ed-featured-comp__intro { max-width: 420px; position: sticky; top: 96px; }
+  @media (max-width: 900px) {
+    .ed-featured-comp__grid { grid-template-columns: 1fr; }
+    .ed-featured-comp__intro { position: static; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured comparison",
+  "tag": "section",
+  "class": "ed-featured-comp-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "In comparison"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Every item, measured against the brand you'd otherwise buy."},
+    {"type": "textarea", "id": "body", "label": "Body", "default": "We do not hide from comparison. Every product on Boring carries a side-by-side against the major-brand equivalent — price, materials, performance, warranty. No spin."},
+    {"type": "product", "id": "product", "label": "Featured product"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "presets": [{"name": "Featured comparison"}]
+}
+{% endschema %}

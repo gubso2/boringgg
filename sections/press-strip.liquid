@@ -1,0 +1,61 @@
+{{ 'editorial-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="ed-press ed-section color-{{ section.settings.color_scheme }}">
+  <div class="ed-section__inner">
+    <div class="ed-press__inner">
+      <span class="kicker">{{ section.settings.kicker | default: 'Coverage' }}</span>
+      <div class="ed-press__logos">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            {%- if block.settings.link_url != blank -%}
+              <a class="ed-press__logo" href="{{ block.settings.link_url }}" {{ block.shopify_attributes }}>
+                {{ block.settings.image | image_url: width: 200 | image_tag: alt: block.settings.image.alt, loading: 'lazy' }}
+              </a>
+            {%- else -%}
+              <span class="ed-press__logo" {{ block.shopify_attributes }}>
+                {{ block.settings.image | image_url: width: 200 | image_tag: alt: block.settings.image.alt, loading: 'lazy' }}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="ed-press__logo ed-press__logo--text" {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-press__inner { text-align: center; }
+  .ed-press__logos { display: flex; flex-wrap: wrap; gap: var(--space-7); justify-content: center; align-items: center; margin-top: var(--space-5); opacity: 0.4; }
+  .ed-press__logo img { max-height: 40px; width: auto; filter: grayscale(100%); }
+  .ed-press__logo--text { font-variant: small-caps; letter-spacing: var(--ls-kicker); font-size: 14px; color: var(--ink-muted); border-bottom: 0; }
+  a.ed-press__logo { border-bottom: 0; }
+</style>
+
+{% schema %}
+{
+  "name": "Press strip",
+  "tag": "section",
+  "class": "ed-press-section",
+  "settings": [
+    {"type": "text", "id": "kicker", "label": "Kicker", "default": "Coverage"},
+    {"type": "select", "id": "color_scheme", "label": "Color scheme", "options": [
+      {"value": "scheme-1", "label": "Primary"},
+      {"value": "scheme-2", "label": "Alt"}
+    ], "default": "scheme-1"}
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {"type": "text", "id": "name", "label": "Name (used if no image)"},
+        {"type": "image_picker", "id": "image", "label": "Logo"},
+        {"type": "url", "id": "link_url", "label": "Link URL"}
+      ]
+    }
+  ],
+  "presets": [{"name": "Press strip"}]
+}
+{% endschema %}

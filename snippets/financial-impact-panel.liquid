@@ -1,0 +1,51 @@
+{% comment %}
+  Financial impact panel (finance products).
+  Usage: {% render 'financial-impact-panel', data: product.metafields.custom.financial_impact.value %}
+{% endcomment %}
+
+{{ 'editorial-evidence.css' | asset_url | stylesheet_tag }}
+
+{%- if data == blank -%}{%- else -%}
+  <section class="financial-panel" aria-labelledby="finance-h">
+    <h2 id="finance-h" class="kicker" style="font-size:var(--fs-kicker);">Financial impact.</h2>
+    {%- if data.saving_type != blank -%}
+      <p class="financial-panel__type">Type · <span class="financial-panel__type-value">{{ data.saving_type }}</span></p>
+    {%- endif -%}
+
+    <dl class="financial-panel__stats">
+      {%- if data.estimated_annual_saving != blank -%}
+        <div class="financial-panel__stat">
+          <dt>Estimated annual saving</dt>
+          <dd>{{ data.estimated_annual_saving | money }}</dd>
+        </div>
+      {%- endif -%}
+      {%- if data.payback_period_months != blank -%}
+        <div class="financial-panel__stat">
+          <dt>Payback period</dt>
+          <dd>{{ data.payback_period_months }} months</dd>
+        </div>
+      {%- endif -%}
+    </dl>
+
+    {%- if data.methodology != blank -%}
+      <p class="financial-panel__method">{{ data.methodology }}</p>
+    {%- endif -%}
+
+    {%- if data.assumptions != blank -%}
+      <details>
+        <summary>Assumptions &amp; method</summary>
+        <ul class="financial-panel__assumptions">
+          {%- for a in data.assumptions -%}
+            <li>{{ a }}</li>
+          {%- endfor -%}
+        </ul>
+      </details>
+    {%- endif -%}
+
+    {%- if data.caveats != blank -%}
+      <p class="financial-panel__disclaimer">{{ data.caveats }}</p>
+    {%- endif -%}
+
+    <p class="financial-panel__disclaimer">Estimates are illustrative and depend on usage. Boring does not provide financial advice.</p>
+  </section>
+{%- endif -%}

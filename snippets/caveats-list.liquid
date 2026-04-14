@@ -1,0 +1,21 @@
+{% comment %}
+  Caveats / "what to know" list.
+  Usage: {% render 'caveats-list', list: product.metafields.custom.caveats.value %}
+{% endcomment %}
+
+{{ 'editorial-product.css' | asset_url | stylesheet_tag }}
+
+{%- if list == blank or list.size == 0 -%}{%- else -%}
+  <section class="product-caveats">
+    <h3>What to know.</h3>
+    <ul class="caveats-list">
+      {%- for entry in list -%}
+        {%- if entry.text -%}
+          <li>{{ entry.text }}</li>
+        {%- else -%}
+          <li>{{ entry }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
